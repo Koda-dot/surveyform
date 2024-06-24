@@ -13,6 +13,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout')
+    ->middleware('auth');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -25,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/surveys/{survey}/responses', [SurveyController::class, 'submitResponse'])->name('surveys.submitResponse');
     Route::get('/surveys/{survey}', [SurveyController::class, 'show'])->name('surveys.show');
     Route::post('/surveys/{survey}/responses', [SurveyController::class, 'storeResponses'])->name('surveys.responses.store');
+    
     Route::resource('surveys', SurveyController::class);
     Route::get('/surveys/{survey}/responses', [SurveyController::class, 'responses'])->name('surveys.responses');
 
@@ -33,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('surveys/{survey}/questions/{question}/edit', [QuestionController::class, 'edit'])->name('questions.edit');
     Route::put('surveys/{survey}/questions/{question}', [QuestionController::class, 'update'])->name('questions.update');
+
 });
 
 require __DIR__.'/auth.php';

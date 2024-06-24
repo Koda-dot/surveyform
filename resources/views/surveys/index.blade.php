@@ -2,8 +2,17 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="container p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Surveys</h1>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>
+    
 <div class="container">
-    <h1>Surveys</h1>
     @if(session('status'))
         <div class="alert alert-success">{{ session('status') }}</div>
     @endif
